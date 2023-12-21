@@ -25,6 +25,43 @@ public class DayTwo {
         int sumOfIDs = 0;
         for (int i = 1; i <= input.size(); ++i) {
             String shownCubes = input.get(i - 1).split(":")[1];
+            int red = 12, green = 13, blue = 14;
+            String[] cubes = shownCubes.split("[\s,;]", 0);
+            List<String> list = new ArrayList<>(Arrays.asList(cubes));
+            list.removeIf(String::isEmpty);
+
+            boolean isPossible = true;
+            // Now that the data has been cleaned, we can check every value
+            for (int j = 1; j < list.size(); j += 2) {
+                if (list.get(j).equals("red")) {
+                    if (Integer.parseInt(list.get(j - 1)) > red) {
+                        isPossible = false;
+                        break;
+                    }
+                } else if (list.get(j).equals("green")) {
+                    if (Integer.parseInt(list.get(j - 1)) > green) {
+                        isPossible = false;
+                        break;
+                    } 
+                } else if (list.get(j).equals("blue")) {
+                    if (Integer.parseInt(list.get(j - 1)) > blue) {
+                        isPossible = false;
+                        break;
+                    }
+                }
+            }
+
+            if (isPossible) 
+                sumOfIDs += i;
+        }
+
+        return sumOfIDs;
+    }
+
+    public static int partTwo(ArrayList<String> input) {
+        int sumOfIDs = 0;
+        for (int i = 1; i <= input.size(); ++i) {
+            String shownCubes = input.get(i - 1).split(":")[1];
             int red = 0, green = 0, blue = 0;
             String[] cubes = shownCubes.split("[\s,;]", 0);
             List<String> list = new ArrayList<>(Arrays.asList(cubes));
@@ -56,11 +93,5 @@ public class DayTwo {
         }
 
         return sumOfIDs;
-    }
-
-    public static int partTwo(ArrayList<String> input) {
-        int sum = 0;
-
-        return sum;
     }
 }
