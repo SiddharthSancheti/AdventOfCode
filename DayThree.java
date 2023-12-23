@@ -18,52 +18,44 @@ public class DayThree {
     }
 
     public static int partOne(ArrayList<String> input) {
-        int sum = 0;
-        int length = input.get(0).length();
+        int r = input.size();
+        int c = input.get(0).length();
+        int ret = 0;
 
-        // First step, find the current number
-        for (int i = 0; i < input.size(); i++) { // Rows
-            // Find the starting index of a number
-            for (int j = 0; j < length; j++) {
-                int num = 0;
+        for (int i = 0; i < r; i++) {
+            int j = 0;
+            while (j < c) {
                 if (!Character.isDigit(input.get(i).charAt(j))) {
+                    j += 1;
                     continue;
                 }
-
-                // When a number is found, get the whole number
                 int k = j;
-                while (k < length && Character.isDigit(input.get(i).charAt(k))) {
-                    num = num * 10 + Character.getNumericValue(input.get(i).charAt(k));
+                int numval = 0;
+                while (k < c && Character.isDigit(input.get(i).charAt(k))) {
+                    numval = 10 * numval + (input.get(i).charAt(k) - '0');
                     k++;
                 }
 
-                // Determine if the number is adjacent to a special character
                 boolean adj = false;
-                for (int l = Math.max(0, j - 1); l < Math.min(length, j + 2); l++) {
-                    if (i - 1 >= 0 && !Character.isDigit(input.get(i - 1).charAt(l)) && input.get(i - 1).charAt(l) != '.') {
+                for (int a = Math.max(0, j - 1); a < Math.min(c, k + 1); a++) {
+                    if (i - 1 >= 0 && !Character.isDigit(input.get(i - 1).charAt(a)) && input.get(i - 1).charAt(a) != '.') {
                         adj = true;
-                        break;
                     }
-
-                    if (!Character.isDigit(input.get(i).charAt(l)) && input.get(i).charAt(l) != '.') {
+                    if (!Character.isDigit(input.get(i).charAt(a)) && input.get(i).charAt(a) != '.') {
                         adj = true;
-                        break;
                     }
-
-                    if (i + 1 < input.size() && !Character.isDigit(input.get(i + 1).charAt(l)) && input.get(i + 1).charAt(l) != '.') {
+                    if (i + 1 < r && !Character.isDigit(input.get(i + 1).charAt(a)) && input.get(i + 1).charAt(a) != '.') {
                         adj = true;
-                        break;
                     }
                 }
+
                 if (adj) {
-                    sum += num;
+                    ret += numval;
                 }
-                j = k;   
+                j = k;
             }
-            // Add the num to total if the number is adjacent to a special character
-
         }
-        return sum;
+        return ret;
     }
 
     public static int partTwo(ArrayList<String> input) {
